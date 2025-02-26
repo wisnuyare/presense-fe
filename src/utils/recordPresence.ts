@@ -1,11 +1,14 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-export const recordPresence = async (formData: FormData) => {
+export const recordPresence = async (imageUrl: string) => {
   try {
-    const res = await fetch(`${API_BASE_URL}/record-presence`, {
+    const res = await fetch(`${API_BASE_URL}/api/attendance`, {
       method: "POST",
-      body: formData,
-      credentials: "include", // If authentication is required
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ imageUrl }),
+      credentials: "include",
     });
 
     if (!res.ok) {

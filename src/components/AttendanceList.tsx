@@ -20,7 +20,6 @@ const AttendanceList = () => {
       setLoading(false);
     }
   };
-  console.log("sumba");
   //   useEffect(() => {
   handleSearch(searchQuery);
   //   }, [searchQuery]);

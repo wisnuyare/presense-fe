@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { recordPresence } from "../utils/recordPresence";
+import { uploadImage } from "../utils/uploadImage";
 
 const RecordPresence = () => {
   const [image, setImage] = useState<File | null>(null);
@@ -17,22 +18,41 @@ const RecordPresence = () => {
     }
 
     const formData = new FormData();
-    formData.append("photo", image); // Ensure backend accepts 'photo' field
+    formData.append("avatar", image);
 
     try {
-      const response = await recordPresence(formData);
-      console.log("Presence recorded successfully:", response);
+      const imageUrl = await uploadImage(formData);
+      const response = await recordPresence(imageUrl);
+      alert(
+        "Presence recorded successfully:" + JSON.stringify(response.message)
+      );
+      setImage(null);
     } catch (error) {
       alert("Failed to record presence." + error);
     }
   };
 
   return (
-    <div>
-      <input type="file" accept="image/*" onChange={handleFileChange} />
+    <div className="flex flex-col items-center justify-center space-y-4 p-6">
+      <label
+        htmlFor="file-upload"
+        className={`${
+          image ? "bg-red-500" : "bg-blue-500"
+        } text-white px-6 py-3 rounded-lg cursor-pointer hover:bg-blue-600 transition duration-200`}
+      >
+        {image ? image.name : "Select Image"}{" "}
+        {/* Show file name or default text */}
+      </label>
+      <input
+        id="file-upload"
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        className="hidden"
+      />
       <button
         onClick={handleSubmit}
-        className="bg-blue-500 text-white px-4 py-2 rounded"
+        className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-200"
       >
         Submit
       </button>
