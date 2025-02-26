@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Search from "./Search";
 import { fetchAttendance } from "../utils/fetchAttendance";
 import { Attendance } from "../types/attendanceTypes";
@@ -8,9 +8,10 @@ const AttendanceList = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
-
+  console.log("jhalannn");
   const handleSearch = async (query: string) => {
     try {
+      console.log("jhalan");
       setLoading(true);
       const data = await fetchAttendance(query);
       setAttendance(data);
@@ -20,9 +21,9 @@ const AttendanceList = () => {
       setLoading(false);
     }
   };
-  //   useEffect(() => {
-  handleSearch(searchQuery);
-  //   }, [searchQuery]);
+  useEffect(() => {
+    handleSearch(searchQuery);
+  }, [searchQuery]);
 
   if (loading) return <p className="text-center text-gray-500">Loading...</p>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
@@ -55,7 +56,17 @@ const AttendanceList = () => {
                 <td className="border p-2">
                   {new Date(attendance.timestamp).toLocaleDateString()}
                 </td>
-                <td className="border p-2">{attendance.photo}</td>
+                <td className="border p-2">
+                  {attendance.photo ? (
+                    <img
+                      src={attendance.photo}
+                      alt="Attendance Photo"
+                      className="w-full h-auto"
+                    />
+                  ) : (
+                    "No photo available"
+                  )}
+                </td>
               </tr>
             ))
           )}
