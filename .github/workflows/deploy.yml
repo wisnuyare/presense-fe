@@ -37,6 +37,10 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
 
+      - name: Debug Service Account Key
+        run: |
+          echo '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}' | head -c 100
+
       - name: Print Service Account Email
         run: gcloud auth list --format='value(account)'
 
