@@ -32,6 +32,12 @@ jobs:
           echo "REACT_APP_MY_ENV_VAR=${{ secrets.VITE_API_BASE_URL }}" > .env.production
           npm run build
 
+      - name: Authenticate with Google Cloud
+        run: |
+          echo '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}' > gcp-key.json
+          gcloud auth activate-service-account --key-file=gcp-key.json
+          gcloud auth list
+
       - name: 🔑 Authenticate with Google Cloud
         uses: google-github-actions/auth@v2
         with:
