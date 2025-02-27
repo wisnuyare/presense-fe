@@ -37,8 +37,14 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
 
-      - name: Debug Environment Variables
-        run: env
+      - name: Verify Authentication
+        run: gcloud auth list
+
+      - name: List Bucket Contents
+        run: gsutil ls gs://${{secrets.BUCKET_NAME}}
+
+      - name: Check Project
+        run: gcloud config get-value project
 
       - name: ☁️ Deploy to GCP Storage Bucket
         run: |
