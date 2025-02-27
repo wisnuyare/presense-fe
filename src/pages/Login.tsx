@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../stores/useAuthStore";
 import { useEffect, useState } from "react";
+import DOMPurify from 'dompurify';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await login(username, password);
+      await login(DOMPurify.sanitize(username), DOMPurify.sanitize(password));
       alert("Login successful!");
     } catch (error) {
       alert("Failed to login" + error);

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { EmployeePost } from "../types/employeeTypes";
 import { addNewEmployee } from "../utils/addNewEmployee";
+import DOMPurify from "dompurify";
 
 interface EmployeeFormProps {
   onClose: () => void;
@@ -22,7 +23,8 @@ const AddEmployeeForm = ({ onClose }: EmployeeFormProps) => {
     setNewEmployee((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (
       !newEmployee.name ||
       !newEmployee.birthdate ||
@@ -34,17 +36,16 @@ const AddEmployeeForm = ({ onClose }: EmployeeFormProps) => {
     }
 
     const newUser: EmployeePost = {
-      username: newEmployee.username,
-      password: newEmployee.password,
+      username: DOMPurify.sanitize(newEmployee.username),
+      password: DOMPurify.sanitize(newEmployee.password),
       role: newEmployee.role,
-      name: newEmployee.name,
-      birthdate: new Date(newEmployee.birthdate).toISOString().split("T")[0],
+      name: DOMPurify.sanitize(newEmployee.name),
+      birthdate: new Date(DOMPurify.sanitize(newEmployee.birthdate)).toISOString().split("T")[0],
     };
     try {
       setLoading(true);
       await addNewEmployee(newUser);
-      alert("Employee added successfully!");
-
+      
       setNewEmployee({
         name: "",
         birthdate: "",
@@ -55,7 +56,9 @@ const AddEmployeeForm = ({ onClose }: EmployeeFormProps) => {
     } catch (error) {
       alert("Failed to add employee. Please try again." + error);
     } finally {
+      alert("Employee added successfully!");
       setLoading(false);
+      onClose()
     }
   };
 

@@ -2,16 +2,15 @@ import { useEffect, useState } from "react";
 import Search from "./Search";
 import { fetchAttendance } from "../utils/fetchAttendance";
 import { Attendance } from "../types/attendanceTypes";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const AttendanceList = () => {
   const [attendances, setAttendance] = useState<Attendance[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  console.log("jhalannn");
   const handleSearch = async (query: string) => {
     try {
-      console.log("jhalan");
       setLoading(true);
       const data = await fetchAttendance(query);
       setAttendance(data);
@@ -59,9 +58,9 @@ const AttendanceList = () => {
                 <td className="border p-2">
                   {attendance.photo ? (
                     <img
-                      src={attendance.photo}
+                      src={API_BASE_URL + attendance.photo}
                       alt="Attendance Photo"
-                      className="w-full h-auto"
+                      className="w-xs h-auto"
                     />
                   ) : (
                     "No photo available"

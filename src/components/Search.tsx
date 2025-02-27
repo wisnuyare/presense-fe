@@ -1,4 +1,5 @@
 import { useState } from "react";
+import DOMPurify from 'dompurify';
 
 interface SearchProps {
   onSearch: (query: string) => void;
@@ -9,7 +10,7 @@ const Search = ({ onSearch }: SearchProps) => {
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      onSearch(searchQuery);
+      onSearch(DOMPurify.sanitize(searchQuery));
     }
   };
 
