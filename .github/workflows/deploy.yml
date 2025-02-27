@@ -10,6 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Debug Secret Availability
+        run: |
+          echo "Secret length: ${#GCP_SERVICE_ACCOUNT_KEY}"
+        env:
+          GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
       - name: 🛠️ Checkout repository
         uses: actions/checkout@v3
 
@@ -30,6 +36,9 @@ jobs:
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+      - name: Debug Environment Variables
+        run: env
 
       - name: ☁️ Deploy to GCP Storage Bucket
         run: |
