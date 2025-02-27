@@ -31,18 +31,6 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
 
-      - name: Verify Authentication
-        run: gcloud auth list
-
-      - name: Check if Secret is Available
-        run: |
-          if [[ -z "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" ]]; then
-            echo "❌ Secret is missing!"
-            exit 1
-          else
-            echo "✅ Secret is set!"
-          fi
-
       - name: ☁️ Deploy to GCP Storage Bucket
         run: |
           gsutil -m rsync -r ./dist gs://${{secrets.BUCKET_NAME}}
