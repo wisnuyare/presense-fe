@@ -1,0 +1,37 @@
+name: Deploy React to GCP
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛠️ Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🔧 Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: 📦 Install dependencies
+        run: npm install
+
+      - name: 🏗️ Build React app
+        run: |
+          echo "REACT_APP_MY_ENV_VAR=${{ secrets.VITE_API_BASE_URL }}" > .env.production
+          npm run build
+
+      - name: 🔑 Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+      - name: ☁️ Deploy to GCP Storage Bucket
+        run: |
+          gsutil -m rsync -r -c -d ./dist gs://presensee-uploads
+          gsutil -m setmeta -r -h "Cache-Control:public, max-age=86400" gs://presensee-uploads

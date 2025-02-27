@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Search from "./Search";
 import { fetchAttendance } from "../utils/fetchAttendance";
 import { Attendance } from "../types/attendanceTypes";
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const AttendanceList = () => {
   const [attendances, setAttendance] = useState<Attendance[]>([]);
@@ -58,7 +57,7 @@ const AttendanceList = () => {
                 <td className="border p-2">
                   {attendance.photo ? (
                     <img
-                      src={API_BASE_URL + attendance.photo}
+                      src={attendance.photo}
                       alt="Attendance Photo"
                       className="w-xs h-auto"
                     />

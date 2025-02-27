@@ -1,5 +1,4 @@
 import { useState } from "react";
-import DOMPurify from "dompurify";
 import { recordPresence } from "../utils/recordPresence";
 import { uploadImage } from "../utils/uploadImage";
 
@@ -9,7 +8,6 @@ const RecordPresence = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0]
-      file.name.replace(file.name, DOMPurify.sanitize(file.name));
       const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
           alert("File is too large!");
