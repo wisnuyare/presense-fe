@@ -33,5 +33,5 @@ jobs:
 
       - name: ☁️ Deploy to GCP Storage Bucket
         run: |
-          gsutil -m rsync -r -c -d ./dist gs://${{secrets.BUCKET_NAME}}
+          gsutil -m rsync -r ./dist gs://${{secrets.BUCKET_NAME}}
           gsutil -m setmeta -r -h "Cache-Control:public, max-age=86400" gs://${{secrets.BUCKET_NAME}}
