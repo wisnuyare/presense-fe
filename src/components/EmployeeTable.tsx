@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 import { fetchEmployee } from "../utils/fetchEmployee";
 import { Employee } from "../types/employeeTypes";
 import Search from "./Search";
@@ -29,12 +29,16 @@ const EmployeeTable = () => {
     setLoading(true);
     setMessage("");
 
-    const sanitizedName = DOMPurify.sanitize(name)
-    const sanitizedBirthdate = DOMPurify.sanitize(birthdate)
+    const sanitizedName = DOMPurify.sanitize(name);
+    const sanitizedBirthdate = DOMPurify.sanitize(birthdate);
 
     try {
       setLoading(true);
-      await editEmployee({ name: sanitizedName, birthdate: sanitizedBirthdate, user_id });
+      await editEmployee({
+        name: sanitizedName,
+        birthdate: sanitizedBirthdate,
+        user_id,
+      });
       setTimeout(() => {
         setIsModalOpen(false);
       }, 1000);

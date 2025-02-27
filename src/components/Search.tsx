@@ -1,5 +1,5 @@
 import { useState } from "react";
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 
 interface SearchProps {
   onSearch: (query: string) => void;

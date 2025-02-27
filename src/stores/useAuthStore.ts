@@ -17,14 +17,14 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      user: null, 
+      user: null,
 
       login: async (username: string, password: string) => {
         try {
           const res = await fetch(`${API_BASE_URL}/auth/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            credentials: "include", 
+            credentials: "include",
             body: JSON.stringify({ username, password }),
           });
 
@@ -33,11 +33,11 @@ export const useAuthStore = create<AuthState>()(
           }
 
           const data = await res.json();
-          set({ user: data }); 
+          set({ user: data });
         } catch (error) {
           console.error("Login Error:", error);
-          set({ user: null }); 
-          throw error; 
+          set({ user: null });
+          throw error;
         }
       },
 
@@ -48,15 +48,15 @@ export const useAuthStore = create<AuthState>()(
             credentials: "include",
           });
 
-          set({ user: null }); 
+          set({ user: null });
         } catch (error) {
           console.error("Logout Error:", error);
         }
       },
     }),
     {
-      name: "auth-storage", 
-      storage: createJSONStorage(() => localStorage), 
+      name: "auth-storage",
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );

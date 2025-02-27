@@ -40,12 +40,14 @@ const AddEmployeeForm = ({ onClose }: EmployeeFormProps) => {
       password: DOMPurify.sanitize(newEmployee.password),
       role: newEmployee.role,
       name: DOMPurify.sanitize(newEmployee.name),
-      birthdate: new Date(DOMPurify.sanitize(newEmployee.birthdate)).toISOString().split("T")[0],
+      birthdate: new Date(DOMPurify.sanitize(newEmployee.birthdate))
+        .toISOString()
+        .split("T")[0],
     };
     try {
       setLoading(true);
       await addNewEmployee(newUser);
-      
+
       setNewEmployee({
         name: "",
         birthdate: "",
@@ -58,7 +60,7 @@ const AddEmployeeForm = ({ onClose }: EmployeeFormProps) => {
     } finally {
       alert("Employee added successfully!");
       setLoading(false);
-      onClose()
+      onClose();
     }
   };
 

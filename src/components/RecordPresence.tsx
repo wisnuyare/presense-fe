@@ -7,12 +7,12 @@ const RecordPresence = () => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0]
+      const file = e.target.files[0];
       const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
-          alert("File is too large!");
-          e.target.value = "";
-          return;
+        alert("File is too large!");
+        e.target.value = "";
+        return;
       }
       setImage(file);
     }
@@ -23,8 +23,6 @@ const RecordPresence = () => {
       alert("Please upload a photo!");
       return;
     }
-    
-    
 
     const formData = new FormData();
     formData.append("avatar", image);
