@@ -31,6 +31,9 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
 
+      - name: Verify Authentication
+        run: gcloud auth list
+
       - name: ☁️ Deploy to GCP Storage Bucket
         run: |
           gsutil -m rsync -r ./dist gs://${{secrets.BUCKET_NAME}}
