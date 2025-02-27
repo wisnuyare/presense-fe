@@ -37,8 +37,8 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
 
-      - name: Verify Authentication
-        run: gcloud auth list
+      - name: Print Service Account Email
+        run: gcloud auth list --format='value(account)'
 
       - name: List Bucket Contents
         run: gsutil ls gs://${{secrets.BUCKET_NAME}}
