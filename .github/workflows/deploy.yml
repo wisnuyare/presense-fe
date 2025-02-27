@@ -10,12 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Debug Secret Availability
-        run: |
-          echo "Secret length: ${#GCP_SERVICE_ACCOUNT_KEY}"
-        env:
-          GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
-
       - name: 🛠️ Checkout repository
         uses: actions/checkout@v3
 
@@ -32,31 +26,20 @@ jobs:
           echo "REACT_APP_MY_ENV_VAR=${{ secrets.VITE_API_BASE_URL }}" > .env.production
           npm run build
 
-      - name: Authenticate with Google Cloud
-        run: |
-          echo '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}' > gcp-key.json
-          gcloud auth activate-service-account --key-file=gcp-key.json
-          gcloud auth list
+      # - name: Authenticate with Google Cloud
+      #   run: |
+      #     echo '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}' > gcp-key.json
+      #     gcloud auth activate-service-account --key-file=gcp-key.json
+      #     gcloud auth list
 
       - name: 🔑 Authenticate with Google Cloud
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
 
-      - name: Debug Service Account Key
-        run: |
-          echo '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}' | head -c 100
-
-      - name: Print Service Account Email
-        run: gcloud auth list --format='value(account)'
-
-      - name: List Bucket Contents
-        run: gsutil ls gs://${{secrets.BUCKET_NAME}}
-
-      - name: Check Project
-        run: gcloud config get-value project
-
       - name: ☁️ Deploy to GCP Storage Bucket
+        env:
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
         run: |
           gsutil -m rsync -r ./dist gs://${{secrets.BUCKET_NAME}}
           gsutil -m setmeta -r -h "Cache-Control:public, max-age=86400" gs://${{secrets.BUCKET_NAME}}
