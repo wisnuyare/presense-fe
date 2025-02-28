@@ -21,12 +21,7 @@ jobs:
       - name: Create .env file
         run: |
           echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" > .env
-          echo "VITE_BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> .env
         shell: bash
-
-      - name: Verify .env File
-        run: cat .env
-
 
       - name: 📦 Install dependencies
         run: npm install

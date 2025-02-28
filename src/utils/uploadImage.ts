@@ -4,7 +4,7 @@ export const uploadImage = async (formData: FormData): Promise<string> => {
   const res = await fetch(`${API_BASE_URL}/api/upload`, {
     method: "POST",
     body: formData,
-    credentials: "include", // If authentication is required
+    credentials: "include", 
   });
 
   if (!res.ok) {
