@@ -19,7 +19,7 @@ const App = () => {
   const basePath = isGoogleStorage ? `/${BUCKET_NAME}` : "";
 
   return (
-    <Router>
+    <Router basename={basePath}>
       <Routes>
         {/* Public Route */}
         <Route path={`${basePath}/`} element={<LoginPage />} />
