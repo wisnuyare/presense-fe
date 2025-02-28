@@ -6,7 +6,7 @@ const ProtectedRoute = () => {
   const location = useLocation(); // Get current route
 
   // Get bucket name from .env
-  const BUCKET_NAME = import.meta.env.REACT_APP_BUCKET_NAME || "";
+  const BUCKET_NAME = import.meta.env.VITE_BUCKET_NAME || "";
   const isGoogleStorage = window.location.hostname === "storage.googleapis.com";
 
   // Define allowed paths per role

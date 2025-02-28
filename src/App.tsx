@@ -1,5 +1,5 @@
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Routes,
   Route,
   Navigate,
@@ -12,14 +12,14 @@ import HrDashboard from "./pages/HRAttendance";
 
 const App = () => {
   // Get bucket name from .env
-  const BUCKET_NAME = import.meta.env.REACT_APP_BUCKET_NAME || "";
+  const BUCKET_NAME = import.meta.env.VITE_BUCKET_NAME || "";
   const isGoogleStorage = window.location.hostname === "storage.googleapis.com";
 
   // Adjust base path dynamically
   const basePath = isGoogleStorage ? `/${BUCKET_NAME}` : "";
 
   return (
-    <Router basename={basePath}>
+    <Router>
       <Routes>
         {/* Public Route */}
         <Route path={`${basePath}/`} element={<LoginPage />} />
