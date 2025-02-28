@@ -34,14 +34,14 @@ const Navbar = () => {
                   </Link>
                 </>
               )}
-              <button onClick={logout} className="text-red-600 hover:underline">
+              <button onClick={logout} className="text-red-600 cursor-pointer hover:underline">
                 Logout
               </button>
             </div>
 
             {/* Mobile Menu Toggle */}
             <button
-              className="md:hidden text-gray-700"
+              className="md:hidden cursor-pointer text-gray-700"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? "✖" : "☰"}
@@ -82,7 +82,7 @@ const Navbar = () => {
                   logout();
                   setIsOpen(false);
                 }}
-                className="text-red-600 hover:underline"
+                className="text-red-600 cursor-pointer hover:underline"
               >
                 Logout
               </button>

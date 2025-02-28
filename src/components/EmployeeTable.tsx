@@ -121,7 +121,7 @@ const EmployeeTable = () => {
                 </td>
                 <td className="border p-2">
                   <button
-                    className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
+                    className="bg-blue-500 text-white px-2 cursor-pointer py-1 rounded mr-2"
                     onClick={() => {
                       handleClickEdit(index);
                     }}
@@ -129,7 +129,7 @@ const EmployeeTable = () => {
                     Edit
                   </button>
                   <button
-                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    className="bg-red-500 text-white px-2 cursor-pointer py-1 rounded"
                     onClick={() => {
                       handleClickDelete(index);
                     }}
@@ -162,13 +162,13 @@ const EmployeeTable = () => {
             {message && <p className="text-green-600">{message}</p>}
             <div className="flex justify-end gap-2 mt-4">
               <button
-                className="bg-gray-500 text-white px-3 py-1 rounded"
+                className="bg-gray-500 text-white px-3 cursor-pointer py-1 rounded"
                 onClick={() => setIsModalOpen(false)}
               >
                 Cancel
               </button>
               <button
-                className="bg-blue-500 text-white px-3 py-1 rounded"
+                className="bg-blue-500 text-white px-3 cursor-pointer py-1 rounded"
                 onClick={handleEdit}
                 disabled={loading}
               >
@@ -186,13 +186,13 @@ const EmployeeTable = () => {
             <p>Are you sure you want to delete this employee?</p>
             <div className="flex justify-end gap-2 mt-4">
               <button
-                className="bg-gray-500 text-white px-3 py-1 rounded"
+                className="bg-gray-500 text-white cursor-pointer px-3 py-1 rounded"
                 onClick={() => setIsDeleteModalOpen(false)}
               >
                 Cancel
               </button>
               <button
-                className="bg-red-500 text-white px-3 py-1 rounded"
+                className="bg-red-500 text-white cursor-pointer px-3 py-1 rounded"
                 onClick={handleConfirmDelete}
               >
                 Confirm
