@@ -4,6 +4,7 @@ import { fetchEmployee } from "../utils/fetchEmployee";
 import { Employee } from "../types/employeeTypes";
 import Search from "./Search";
 import { editEmployee } from "../utils/editEmployee";
+import { deleteEmployee } from "../utils/deleteEmployee";
 
 const EmployeeTable = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -11,6 +12,7 @@ const EmployeeTable = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [user_id, setUser_id] = useState("");
   const [name, setName] = useState("");
   const [birthdate, setBirthdate] = useState("");
@@ -23,6 +25,25 @@ const EmployeeTable = () => {
     );
     setName(employees[index].name);
     setIsModalOpen(true);
+  };
+
+  const handleClickDelete = (index: number) => {
+    setUser_id(employees[index].user_id);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    setLoading(true);
+    try {
+      await deleteEmployee({ user_id });
+      alert("Employee deleted successfully!");
+      setIsDeleteModalOpen(false);
+      handleSearch(searchQuery);
+    } catch (error) {
+      alert("Failed to delete employee. Please try again." + error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleEdit = async () => {
@@ -100,12 +121,20 @@ const EmployeeTable = () => {
                 </td>
                 <td className="border p-2">
                   <button
-                    className="bg-blue-500 text-white px-2 py-1 rounded"
+                    className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
                     onClick={() => {
                       handleClickEdit(index);
                     }}
                   >
                     Edit
+                  </button>
+                  <button
+                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    onClick={() => {
+                      handleClickDelete(index);
+                    }}
+                  >
+                    Delete
                   </button>
                 </td>
               </tr>
@@ -144,6 +173,29 @@ const EmployeeTable = () => {
                 disabled={loading}
               >
                 {loading ? "Saving..." : "Submit"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+          <div className="bg-white p-4 rounded shadow-lg w-96">
+            <h2 className="text-xl font-bold mb-2">Confirm Delete</h2>
+            <p>Are you sure you want to delete this employee?</p>
+            <div className="flex justify-end gap-2 mt-4">
+              <button
+                className="bg-gray-500 text-white px-3 py-1 rounded"
+                onClick={() => setIsDeleteModalOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-red-500 text-white px-3 py-1 rounded"
+                onClick={handleConfirmDelete}
+              >
+                Confirm
               </button>
             </div>
           </div>
